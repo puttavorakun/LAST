@@ -42,7 +42,7 @@
 								<li role="presentation"><a href="FTA.html" >FTA</a></li>
 								<li role="presentation"><a href="CTM.html">CTM</a></li>
 								<li role="presentation"><a href="Map.html">FTA & CTM</a></li>
-								<li role="presentation"><a href="Patition.html"class="active">Patition</a></li>
+								<li role="presentation"><a href="Patition.html"class="active">Generate</a></li>
 								<li role="presentation"><a href="Testcase.html">Test Case</a></li>					
 						</ul>
 					</div>
@@ -65,11 +65,171 @@
 	
 	<section id="about-us">
         <div class="container">	
-			<!-- our-team -->
+              
+                    	
+                        <center><form>
+                      <p align="left"><font size="6px"><b>Generate</b></font></p>
+                    </form>
 			<div class="team">
-				<div class="text-center wow fadeInDown">
+				<div class="">
 						
-							<p>dasdasd</p>	  
+                    <style>
+                        table,th,td {
+                          border : 1px solid black;
+                          border-collapse: collapse;
+                          width: 60%;
+                        }
+                        th,td {
+                          padding: 5px;
+                        }
+                
+                        .rectangle1 {
+                  height: 25px;
+                  width: 125px;
+                  background-color:teal;
+                }
+                        .rectangle2 {
+                  height: 25px;
+                  width: 100px;
+                  background-color: #555;
+                }
+                        .rectangle3 {
+                  height: 25px;
+                  width: 50px;
+                  background-color: #555;
+                }
+                        </style>
+                <body>
+            <center>
+
+              
+                  <table border="3 px">
+                        <center>
+               <tr><td> <p id="demo"><p></td></tr>
+               </center>
+            </table>
+            <!-- <button type="button" onclick="loadXMLDoc()">Generate</button> -->
+        </center>
+                <script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
+                
+                <script>        
+
+
+
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        myFunction(this);
+    }
+};
+xhttp.open("GET", "CFG.xml", true);
+xhttp.send();
+
+
+function myFunction(xml) {
+                    Arr=[];
+                    GetvarName=[];
+                    GetName=[];
+                    GetOrdinal=[];
+                    GetRangemax=[];
+                    GetRangemin=[];
+                    Getidcfg=[];
+                    GetValue=[];
+
+
+
+
+
+    var x, txt, xmlDoc;
+  //  var table="<tr><th>NUMBER</th><th>Type</th><th>Value</th></tr>";
+    xmlDoc = xml.responseXML;
+    txt = "";
+    nodeLen = xmlDoc.getElementsByTagName("Input").length
+    //txt = txt+ "nodeLen=" + nodeLen ;
+    for(j=0;j<nodeLen;j++){
+        x = xmlDoc.getElementsByTagName("Input")[j];
+        xlen = x.childNodes.length;
+
+        y = x.firstChild;
+       
+        var varName, type, dataSet
+        varName = "";
+        type="";
+
+        for (i = 0; i < xlen; i++) {    
+            if (y.nodeType == 1) {
+                 if(y.nodeName=="Varname"){ 
+                    varName = y.childNodes[0].nodeValue;
+                    txt+=  " " + y.nodeName + " value = " + varName + "<br>";
+               
+                }
+     
+                if(y.nodeName=="Type"){
+                    type = y.childNodes[0].nodeValue;
+                    txt+= " " + y.nodeName + " value = " + type + "<br>";
+               
+                } 
+           
+                if(y.nodeName=="Condition"){
+                    yAtt = y.attributes;
+                    if((type!="")&&(type=="Range")){
+
+
+                          txt+= " " + y.nodeName +  " id="+ yAtt.getNamedItem("id").nodeValue + " max="+ yAtt.getNamedItem("max").nodeValue+ " min="+ yAtt.getNamedItem("min").nodeValue + "<br>";
+                     //aไม่ได้   // Arr.push(yAtt.getElementById[i]);
+                    }else if((type!="")&&(type=="Ordinal")){
+                        txt+=  " " + y.nodeName +  " id="+ yAtt.getNamedItem("id").nodeValue + " value="+ yAtt.getNamedItem("value").nodeValue + "<br>";
+              
+                    }
+              
+                }
+                 
+            }
+            y = y.nextSibling;        
+        }//end of for i
+        Arr.push(txt);
+       
+        txt += "<br>";
+    }//end of for j
+    nodeLen = xmlDoc.getElementsByTagName("Output").length
+  //  txt = txt + "nodeLen=" + nodeLen + "<br>";
+    for(j=0;j<nodeLen;j++){
+        x = xmlDoc.getElementsByTagName("Output")[j];
+        xlen = x.childNodes.length;
+
+        y = x.firstChild;
+       
+
+        for (i = 0; i < xlen; i++) {            
+            if (y.nodeType == 1) {
+                if(y.nodeName=="Action"){
+                    yAtt = y.attributes;
+                    txt += i + " " + y.nodeName +  " value="+ yAtt.getNamedItem("id").nodeValue + "<br>";
+                }else{
+                    txt += i + " " + y.nodeName + " value = " + y.childNodes[0].nodeValue + "<br>";
+                  //    
+                  Arr.push( y.childNodes[0].nodeValue );
+                }             
+            }
+            y = y.nextSibling;
+      
+        }//end of for i
+        txt += "<br>";
+
+    console.log(Arr);
+    txt=txt+Arr[0]+Arr[1]+Arr[3];
+ // document.write(Arr+"<br>");
+    }//end of for j
+
+   
+    document.getElementById("demo").innerHTML = txt;
+
+}
+
+                
+              
+                </script>
+                </body> 
 				</div>		
 			</div><!--section-->
 		</div><!--/.container-->

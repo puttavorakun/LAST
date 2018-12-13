@@ -18,12 +18,13 @@ body {
 
 hi,h2,h3,h4,h5,h6 {
 	color:#272727;
-	line-height:1.1em;
+  line-height:1.1em;
+  text-align: center;
 }
 
 p {
-	color:#aaa;
-	font-size:13px;
+	color:#000000;
+	font-size:15px;
 }
 a {
     text-decoration:none;
@@ -1078,20 +1079,20 @@ ul.social-network li a {
 
 .button1 {
   display: inline-block;
-  padding: 15px 25px;
-  font-size: 24px;
+  padding: 12px 20px;
+  font-size: 15px;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
   outline: none;
   color: #fff;
-  background-color: #00abf0;
+  background-color: #0077b5;
   border: none;
-  border-radius: 15px;
-  box-shadow: 0 9px #999;
+  border-radius: 10px;
+ 
 }
 
-.button1:hover {background-color: #999}
+.button1:hover {background-color: #ff6600}
 
 .button1:active {
   background-color: #999;

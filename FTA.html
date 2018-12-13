@@ -42,7 +42,7 @@
 								<li role="presentation"><a href="FTA.html" class="active">FTA</a></li>
 								<li role="presentation"><a href="CTM.html">CTM</a></li>
 								<li role="presentation"><a href="Map.html">FTA & CTM</a></li>
-								<li role="presentation"><a href="Patition.html">Patition</a></li>
+								<li role="presentation"><a href="Patition.html">Generate</a></li>
 								<li role="presentation"><a href="Testcase.html">Test Case</a></li>					
 						</ul>
 					</div>
@@ -63,11 +63,435 @@
 	<hr>
 	
 	<section id="about-us">
-        <div class="container">	
+        
+            <div class="container">		
+                <center><form>
+              <p align="left"><font size="6px"><b>Fault Tree Analysis Result</b></font></p>
+            </form>
 			<!-- our-team -->
 			<div class="team">
 				<div class="text-center wow fadeInDown">
-						
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    
+                    <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                      <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                      <title>Document</title>
+                    
+                      <style>
+                        .node circle {
+                          fill: #fff;
+                          stroke: steelblue;
+                          stroke-width: 3px;
+                        }
+                    
+                        .node text {
+                          font: 10px sans-serif;
+                      
+                        }
+                    
+                        .link {
+                          fill: none;
+                          stroke: #ccc;
+                          stroke-width: 2px;
+                        }
+
+                        .h3{
+                          text-align: left;
+                        }
+                      </style>
+                    </head>
+                    
+                    <body>
+                                              
+                        <!-- The page width is 817px -->
+                        <!-- Example of using the form CSS to help you out. -->
+                      
+                        <hr />
+                        <!-- Employee list goes here. There is initial data for you in application.js -->
+                        <div id="directory">
+                        </div>
+                      </div>
+                    
+                    
+                      <script src="http://d3js.org/d3.v3.min.js"></script>
+                    
+                    
+                      <script>
+                        
+                    Alldata=[];
+                    console.log(Alldata);
+                    
+                    
+                      var xmlhttp = new XMLHttpRequest();
+                      xmlhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                          myFunction(this);
+                        }
+                      };
+                      xmlhttp.open("GET","DecisionTree.xml", true);
+                      xmlhttp.send(); 
+                      xmlhttp.open("GET","CFG.xml", true);
+                      xmlhttp.send();
+                    function myFunction(xml){
+                    
+       
+    var xmlhttp = new XMLHttpRequest();
+                      xmlhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                          myFunction(this);
+                        }
+                      };
+                      xmlhttp.open("GET","CFG.xml", true);
+                      xmlhttp.send();
+                    function myFunction(xml){
+ 
+                        xmlDoc = xml.responseXML;
+    txt = "";
+    nodeLen = xmlDoc.getElementsByTagName("Input").length
+    Getname=[];
+    GetRange=[];
+    Getvalue=[];
+
+                        for(j=0;j<nodeLen;j++){
+        x = xmlDoc.getElementsByTagName("Input")[j];
+        xlen = x.childNodes.length;
+
+        y = x.firstChild;
+       
+        var varName, type, dataSet
+        varName = "";
+        type="";
+
+        for (i = 0; i < xlen; i++) {    
+            if (y.nodeType == 1) {
+                 if(y.nodeName=="Varname"){ 
+                    varName = y.childNodes[0].nodeValue;
+                    name1 =   y.nodeName ;
+
+                    console.log(varName)
+                    Getname.push(varName);
+                
+                }
+     
+                if(y.nodeName=="Type"){
+                    type = y.childNodes[0].nodeValue;
+                    Getname.push(type);
+               
+                } 
+           
+                if(y.nodeName=="Condition"){
+                    yAtt = y.attributes;
+                    if((type!="")&&(type=="Range")){
+
+                    Ragearrmin=  yAtt.getNamedItem("min").nodeValue;
+                    Ragearrmax=  yAtt.getNamedItem("max").nodeValue
+                    GetRange.push(Ragearrmin);
+                    GetRange.push(Ragearrmax);
+                    }else if((type!="")&&(type=="Ordinal")){
+                percent=yAtt.getNamedItem("value").nodeValue ;
+
+                Getvalue.push(percent);
+                    }
+              
+                }
+                 
+            }
+            y = y.nextSibling;        
+        }//end of for i
+    
+       
+        txt += "<br>";
+    }//end of for j
+
+    nodeLen = xmlDoc.getElementsByTagName("Output").length
+    txt = txt + "nodeLen=" + nodeLen + "<br>";
+    for(j=0;j<nodeLen;j++){
+        x = xmlDoc.getElementsByTagName("Output")[j];
+        xlen = x.childNodes.length;
+
+        y = x.firstChild;
+       
+
+        for (i = 0; i < xlen; i++) {            
+            if (y.nodeType == 1) {
+                if(y.nodeName=="Action"){
+                    yAtt = y.attributes;
+                    percent =  yAtt.getNamedItem("value").nodeValue 
+                    test =  yAtt.getNamedItem("id").nodeValue ;
+                    Getvalue.push(percent);    
+                    console.log(test);
+                }else{
+                    y.nodeName;  
+                    varName= y.childNodes[0].nodeValue ;
+                    Getname.push(varName);    
+                 
+                }             
+            }
+            y = y.nextSibling;
+      
+        }//end of for i
+        txt += "<br>";
+
+
+ // document.write(Arr+"<br>");
+    }//end of for j
+    console.log(Getname);
+    console.log(GetRange);
+    console.log(Getvalue);
+
+                    
+                    
+                    
+                        
+                    
+                    
+    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                          //¡ÃÒ¿µÒÃÒ§
+                       var treeData = [
+                          {
+                            "Varname": "System",
+                            "parent": "null",
+                            "value": 10,
+                            "type": "black",
+                            "level": "green",
+                            "icon": "Square.png",
+                            "children": [{
+                              "level": "yellow",
+                            "icon": "And.png",
+                            "children": [
+                    
+                              {
+                                "Varname": " invalid "+Getname[1],
+                                "parent": "Top ",
+                                "value": 50,
+                                "type": "grey",
+                                "level": "red",
+                                "icon": "Square.png",
+                                "children": [
+                                  {
+                                    "level": "red",
+                            "icon": "And.png",
+                            "children": [
+                    
+                              {
+                                    "Varname":Getname[0],
+                                    "parent": "Level 2: A",
+                                    "value": 5,
+                                    "type": "steelblue",
+                                    "icon": "Square.png",
+                                    "level": "red",
+                                    "children": [{
+                                      "Varname": "price"+"<"+GetRange[0],
+                                      "icon": "OP.PNG",
+                                      "level": "red"
+                                      },
+                                      {
+                                        "Varname":"price"+">"+GetRange[5],
+                                      "icon": "OP.PNG",
+                                      "level": "red"
+                                      }
+                                  ]
+                                  },{
+                                  "Varname":Getname[2],
+                                    "parent": "Level 2: A",
+                                    "value": 5,
+                                    "type": "steelblue",
+                                    "icon": "Square.png",
+                                    "level": "red",
+                                    "children": [{
+                                      "Varname": Getname[2]+"="+"null",
+                                      "icon": "OP.PNG",
+                                      "level": "red"
+                                      
+                                    }]
+                                  }
+                                  ]
+                    
+                                  
+                                  }
+                    
+                                
+                                ]
+                              },
+                              {
+                            
+                                  "Varname":"Invalid mapping",
+                                  "level": "green",
+                                  "icon":"Square.png"
+                            ,
+                         
+                                "children": [{"Varname":"Incorrect "+Getname[0]
+                            ,"icon":"Square.png",
+                            "level": "green",
+                           
+                            "children": [{
+                                      "Varname":Getname[0]+"="+GetRange[0]+"-"+GetRange[1]+
+                                      "&&"+Getname[2]+"="+Getvalue[1],
+                            
+                                      "icon": "OP.PNG",
+                                      "level": "green",
+                                      
+                                      
+                                    
+
+                            }, 
+                            
+                               ] }
+                              
+                            ]          
+                    }
+                           
+                          ]
+                          }
+                          ]
+                    
+                                  
+                                  }
+                        ];
+                          
+                    
+                    
+                    
+                    
+                    /// ·ÕèÇÒ§
+                            
+                        var margin = { top: 20, right: 220, bottom: 10, left: 120 },
+                          height = 960 - margin.right - margin.left,
+                          width = 500 - margin.top - margin.bottom;
+                    
+                        var i = 0;
+                    
+                        var tree = d3.layout.tree()
+                          .size([height, width]);
+                    
+                        var diagonal = d3.svg.diagonal()
+                          .projection(function (d) { return [d.y, d.x]; });
+                    
+                        var svg = d3.select("body").append("svg")
+                          .attr("width", width + margin.right + margin.left)
+                          .attr("height", height + margin.top + margin.bottom)
+                          .append("g")
+                          .attr("transform",
+                          "translate(" + margin.left + "," + margin.top + ")");
+                    
+                    
+                        root = treeData[0];
+                        console.log(root);
+                    
+                    
+                        update(root);
+                    
+                        function update(source) {
+                          // Compute the new tree layout.
+                          var nodes = tree.nodes(root).reverse(),
+                            links = tree.links(nodes);
+                          // Normalize for fixed-depth.
+                          
+                          nodes.forEach(function (d) { d.y = d.depth * 120; });
+                          // Declare the nodes…
+                          var node = svg.selectAll("g.node")
+                            .data(nodes, function (d) { return d.id || (d.id = ++i);});
+                    
+                          // Enter the nodes.
+                          var nodeEnter = node.enter().append("g")
+                            .attr("class", "node")
+                            .attr("transform", function (d) {
+                              return "translate(" + d.y + "," + d.x + ")";
+                            });
+                    
+                          nodeEnter.append("image")
+                            .attr("xlink:href", function (d) { return d.icon; })
+                            .attr("y", "-20px")
+                            .attr("x", "-12px")
+                            .attr("width", "50px")
+                            .attr("height", "50px");
+                          nodeEnter.append("text")
+                            //ÃÙ» node
+                    
+                            .attr("x", function (d) {
+                              return d.children || d._children ?
+                                (15) * 0.5 : + 10
+                            })
+                            .attr("dy", "2em")
+                            .attr("text-anchor", function (d) {
+                              return d.children || d._children ? "end" : "start";
+                            })
+                            .attr("dx", "0.5em")
+                            .attr("text-anchor", function (d) {
+                              return d.children || d._children ? "end" : "start";
+                            })
+                            .text(function (d) { return d.Varname; })
+                            
+                            .style("fill-opacity",  5);
+                        
+                    
+                          // Declare the links…
+                          var link = svg.selectAll("path.link")
+                            .data(links, function (d) { return d.target.id; });
+                    
+                          // Enter the links.
+                          link.enter().insert("path", "g")
+                            .attr("class", "link")  
+                            .style("stroke", function (d) { return d.target.level; })
+                            .attr("d", diagonal);
+                    
+                    
+                          
+                    
+                            
+                    
+                    
+                    
+                      }}  }
+                        
+                    
+                        
+                    
+                    
+                    
+                    
+                      </script>
+                    
+                    </body>
+                    
+                    </html>
 									  
 				</div>		
 			</div><!--section-->

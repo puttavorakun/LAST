@@ -42,7 +42,7 @@
 								<li role="presentation"><a href="FTA.html">FTA</a></li>
 								<li role="presentation"><a href="CTM.html">CTM</a></li>
 								<li role="presentation"><a href="Map.html" class="active">FTA & CTM</a></li>
-								<li role="presentation"><a href="Patition.html">Patition</a></li>
+								<li role="presentation"><a href="Patition.html">Generate</a></li>
 								<li role="presentation"><a href="Testcase.html">Test Case</a></li>					
 						</ul>
 					</div>
@@ -66,8 +66,239 @@
         <div class="container">	
 			<!-- our-team -->
 			<div class="team">
-				<div class="text-center wow fadeInDown">
-						
+				<div class>
+                    <style>
+                        table,th,td {
+                          border : 1px solid black;
+                          border-collapse: collapse;
+                      width: 60%;
+                        }
+                        th,td {
+                          padding: 5px;
+                        }
+                
+                        .rectangle1 {
+                  height: 25px;
+                  width: 125px;
+                  background-color: #555;
+                }
+                        .rectangle2 {
+                  height: 25px;
+                  width: 100px;
+                  background-color: #555;
+                }
+                        .rectangle3 {
+                  height: 25px;
+                  width: 50px;
+                  background-color: #555;
+                }
+                        .rectangle4 {
+                  height: 25px;
+                  width: 125px;
+                  background-color: red;
+                }
+                        .rectangle5 {
+                  height: 25px;
+                  width: 100px;
+                  background-color: red;
+                }
+                        .rectangle6 {
+                  height: 25px;
+                  width: 50px;
+                  background-color: red;
+                }
+                        </style>
+                <body>
+                        <p align="left"><font size="6px"><b>FTA & CTM Partition</b></font></p>
+                    <center>
+                <table>
+            <tr><td><p id="demo"></p></td></tr>
+            </table>
+        </center>
+                <script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
+                
+                <script>               
+            
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        myFunction(this);
+                    }
+                };
+                xhttp.open("GET", "CFG.xml", true);
+                xhttp.send();
+                
+                function myFunction(xml) {
+                    
+                    var x, txt, xmlDoc;
+                    //var table="<tr><th>NUMBER</th><th>Type</th><th>Value</th></tr>";
+                    xmlDoc = xml.responseXML;
+                    txt = "";
+                    x1 = xmlDoc.getElementsByTagName('Varname');
+                    x2 = xmlDoc.getElementsByTagName('Type');
+                    x3 = xmlDoc.getElementsByTagName('Dataset');
+                    x4 = xmlDoc.getElementsByTagName('Condition');
+                    GetRange=[];
+
+
+                    
+                    nodeLen = xmlDoc.getElementsByTagName("Input").length
+                     
+                   txt +="<center>"+x1[0].nodeName+ " ="+x1[0].childNodes[0].nodeValue+ "<br>";
+                 txt += "<center>"+x2[0].nodeName+" ="+x2[0].childNodes[0].nodeValue+"<br>";
+                   txt +="<center>"+ x3[0].nodeName+" ="+x3[0].childNodes[0].nodeValue+"<br>";
+                
+                  
+                    txt+= ">"+x4[0].getAttribute('min')  + "<div class='rectangle4'>"+ "</div>";
+                
+                    for(j=0;j<nodeLen;j++){
+                        x = xmlDoc.getElementsByTagName("Input")[j];
+                        xlen = x.childNodes.length;
+                
+                        y = x.firstChild;
+                       
+                        var varName, type, dataSet,invalid
+                        varName = "";
+                        type="";
+                        
+                
+                        for (i = 0; i < xlen; i++) {    
+                            if (y.nodeType == 1) {
+                                 if(y.nodeName=="Varname"){ 
+                                    varName = y.childNodes[0].nodeValue;
+                                    var tt=   " " + y.nodeName + " value = " + varName + "<br>";
+                                }
+                
+                                if(y.nodeName=="Type"){
+                                    type = y.childNodes[0].nodeValue;
+                                    var ds =   " " + y.nodeName + " value = " + type + "<br>";
+                                } 
+                                if(y.nodeName=="Dataset"){
+                                    dataSet = y.childNodes[0].nodeValue;
+                                    var dd =   " " + y.nodeName + " value = " + dataSet + "<br>";
+                                } 
+                               
+                               // for (i = 0; i < xlen; i++) { 
+                                if(y.nodeName=="Condition"){
+                                    
+                                    yAtt = y.attributes;
+                                  
+                
+                                    if((type!="")&&(type=="Range")){
+                                        // txt+=Math.floor(Math.random() *yAtt.getNamedItem("max").nodeValue)+1 +"<br>";  gentestcase
+                                        
+                                        
+                                      
+                                         txt +=  yAtt.getNamedItem("min").nodeValue + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +  yAtt.getNamedItem("max").nodeValue +"<div class='rectangle1'>"+ "</div>"  ;
+                                        
+                                        
+                                         Ragearrmax=yAtt.getNamedItem("max").nodeValue ;
+                                         Ragearrmin=yAtt.getNamedItem("min").nodeValue ;
+                                         GetRange.push(Ragearrmin);
+                                        GetRange.push(Ragearrmax);
+   
+   
+   
+                                    }else if((type!="")&&(type=="Ordinal")){
+                                        var dd =   "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+ yAtt.getNamedItem("value").nodeValue + "<div class='rectangle2'>"+ "</div>" ;
+                                    }
+                                }
+                                 
+                            }
+                            y = y.nextSibling;        
+                        }//end of for i
+                      
+                    }//end of for j
+                    txt+= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+"Infinity" + "<div class='rectangle4'>"+ "</div>"+"<br>"+"<br>";
+                    txt +="<center>"+x1[0].nodeName+ " ="+x1[1].childNodes[0].nodeValue+ "<br>";
+                 txt += "<center>"+x2[0].nodeName+" ="+x2[1].childNodes[0].nodeValue+"<br>";
+                   txt +="<center>"+ x3[0].nodeName+" ="+x3[1].childNodes[0].nodeValue+"<br>";
+                
+                    for(j=0;j<nodeLen;j++){
+                        x = xmlDoc.getElementsByTagName("Input")[j];
+                        xlen = x.childNodes.length;
+                
+                        y = x.firstChild;
+                       
+                        var varName, type, dataSet,invalid
+                        varName = "";
+                        type="";
+                        
+                        
+                    
+                        for (i = 0; i < xlen; i++) {    
+                            if (y.nodeType == 1) {
+                                 if(y.nodeName=="Varname"){ 
+                                    varName = y.childNodes[0].nodeValue;
+                                    var sq=   " " + y.nodeName + " value = " + varName + "<br>";
+                                }
+                
+                                if(y.nodeName=="Type"){
+                                    type = y.childNodes[0].nodeValue;
+                                    var ss=   " " + y.nodeName + " value = " + type + "<br>";
+                                } 
+                                if(y.nodeName=="Dataset"){
+                                    dataSet = y.childNodes[0].nodeValue;
+                                    var ww =   " " + y.nodeName + " value = " + dataSet + "<br>";
+                                } 
+                               
+                               // for (i = 0; i < xlen; i++) { 
+                                if(y.nodeName=="Condition"){
+                                    
+                                    yAtt = y.attributes;
+                                  
+                
+                                    if((type!="")&&(type=="Range")){
+                                        // txt+=Math.floor(Math.random() *yAtt.getNamedItem("max").nodeValue)+1 +"<br>";  gentestcase
+                                        
+                                        
+                                         var vo = /*" id=" + yAtt.getNamedItem("id").nodeValue +*/  yAtt.getNamedItem("min").nodeValue + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +  yAtt.getNamedItem("max").nodeValue +"<div class='rectangle1'>"+ "</div>" + "  &nbsp;&nbsp;&nbsp;   " ;
+                                    }else if((type!="")&&(type=="Ordinal")){
+                                        txt +=  /* " " + y.nodeName +  " id="+ yAtt.getNamedItem("id").nodeValue + " value=" +*/ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+ yAtt.getNamedItem("value").nodeValue + "<div class='rectangle2'>"+ "</div>" ;
+                                    }
+                                }
+                                 
+                            }
+                            y = y.nextSibling;        
+                        }//end of for i
+                    
+                      console.log(GetRange);
+                    }//end of for j
+                
+                    txt+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+ "none" + "<div class='rectangle5'>"+ "</div>"+"<br>"+"<br>";
+                    txt +="<center>"+x1[0].nodeName+ " ="+x1[2].childNodes[0].nodeValue+ "<br>";
+                 txt += "<center>"+x2[0].nodeName+" ="+x2[2].childNodes[0].nodeValue+"<br>";
+                   txt +="<center>"+ x3[0].nodeName+" ="+x3[2].childNodes[0].nodeValue+"<br>";
+                    txt+="&nbsp;&nbsp;&nbsp;"+ ">0%" + "<div class='rectangle6'>"+ "</div>";
+                    nodeLen = xmlDoc.getElementsByTagName("Output").length
+                    // txt = txt + "nodeLen=" + nodeLen + "<br>";
+                    for(j=0;j<nodeLen;j++){
+                        x = xmlDoc.getElementsByTagName("Output")[j];
+                        xlen = x.childNodes.length;
+                
+                        y = x.firstChild;
+                       
+                        
+                        for (i = 0; i < xlen; i++) {    
+                                    
+                            if (y.nodeType == 1) {
+                                if(y.nodeName=="Action"){
+                                    yAtt = y.attributes;
+                                    
+                                    txt += /*i + " " + y.nodeName +  " value="+*/ "&nbsp;&nbsp;&nbsp;"+ yAtt.getNamedItem("value").nodeValue + "<div class='rectangle3'>"+ "</div>" ;
+                                }else{
+                                    var wq=   y.nodeName + " value = " + y.childNodes[0].nodeValue + "<br>";
+                                }             
+                            }
+                            y = y.nextSibling;
+                        }//end of for i
+                        
+                    }//end of for j
+                    txt+="&nbsp;&nbsp;"+ "<35%" + "<div class='rectangle6'>"+ "</div>"+"<br>"+"<br>";
+                    document.getElementById("demo").innerHTML = txt;
+                }
+                </script>
+                </body>
 									  
 				</div>		
 			</div><!--section-->

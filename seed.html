@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>FATCG - HTML Bootstrap Template</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/animate.css">
+	<link href="css/animate.min.css" rel="stylesheet"> 
+	<link href="css/style.css" rel="stylesheet" />	
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>	
+	<header id="header">
+        <nav class="navbar navbar-default navbar-static-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                   <div class="navbar-brand">
+						<a href="index.html"><h1>FATCG</h1></a>
+					</div>
+                </div>				
+                <div class="navbar-collapse collapse">							
+					<div class="menu">
+						<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation"><a href="Browse.html">Browse</a></li>
+								<li role="presentation"><a href="FTA.html">FTA</a></li>
+								<li role="presentation"><a href="CTM.html">CTM</a></li>
+								<li role="presentation"><a href="Map.html">FTA & CTM</a></li>
+								<li role="presentation"><a href="Patition.html">Patition</a></li>
+								<li role="presentation"><a href="Testcase.html"class="active">Test Case</a></li>					
+						</ul>
+					</div>
+				</div>		
+            </div><!--/.container-->
+        </nav><!--/nav-->		
+    </header><!--/header-->	
+	
+	
+		<div class="container">
+			<div class="text-center">
+					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                            100%
+                        </div>
+			</div>	
+		</div>			
+	
+	<hr>
+	
+	<section id="about-us">
+        <div class="container">	
+			<!-- our-team -->
+			<div class="team">
+				<div class="text-center wow fadeInDown">
+                    <!DOCTYPE html>
+                    <html>
+                            <style>
+                            table,th,td {
+                              border : 1px solid black;
+                              border-collapse: collapse;
+                              color:#000000;
+	                        font-size:15px;
+                            }
+                            th,td {
+                              padding: 5px;
+                            }
+                    
+                           
+                            </style>
+                    <body>
+                    <center>
+                            <button type="button" onclick="loadXMLDoc()">Random</button>
+                            <br><br>
+                            <table id="demo"></table>
+                    
+                    <script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
+                    
+                    <script>               
+                  function loadXMLDoc() {
+
+
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      myFunction(this);
+    }
+  };
+
+  xmlhttp.open("GET","CFG.xml", true);
+  xmlhttp.send();
+
+}
+function myFunction(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>ID</th><th>Price</th><th>Cutomer Type</th><th>Discount</th><th>Status</th></tr>";
+    var testw = xmlDoc.getElementsByTagName("DecisionS");
+  var x = xmlDoc.getElementsByTagName("Input");
+  var y = xmlDoc.getElementsByTagName("Output");
+  var x1,x2,x3;
+  x1 = xmlDoc.getElementsByTagName('Varname');
+x2 = xmlDoc.getElementsByTagName('Type');
+x3 = xmlDoc.getElementsByTagName('Dataset');
+x4 = xmlDoc.getElementsByTagName('Condition');
+y5=xmlDoc.getElementsByTagName('Action');
+x5=xmlDoc.getElementsByTagName('id');
+
+work=xmlDoc.getElementsByTagName('Decision');
+
+for (Nid=0;Nid<x3.length;Nid++){
+var gapid=[];
+var id1=x4[Nid].getAttribute("id")
+gapid.push(id1)
+console.log(gapid);
+}
+var sumid=x4.length+x5.length;
+
+var conteE=0;
+var conte=0;
+var max=x4[0].getAttribute('max');
+    var min=x4[0].getAttribute('min');
+    var prete=x4[3].getAttribute('value');
+    var preto=x4[4].getAttribute('value');
+
+/*Array.prototype.random = function (length) {
+       return this[Math.floor((Math.random()*length))];
+ }
+
+ var teams = []
+ var chosen_team = teams.random(teams.length)
+ alert(chosen_team)
+
+ */
+
+/*var controll="";
+if(x5.getAttribute("id")){
+  
+}*/
+//var c=x4[Math.floor(Math.random() * x4.length)].getAttribute('min')+" "+x4[Math.floor(Math.random() * x4.length)].getAttribute('max');
+
+//console.log(textew);
+
+
+var k=0;
+var contes=0;
+var teen="";
+for (var j=0;j<x1.length;j++){
+    var i = 0;
+
+
+//while(i <x3.length){
+  conte=j+2;
+  
+for (var i=0;i<x3.length;i++){
+    var number= Math.floor(Math.random() * x4[i].getAttribute('max')) + 1;
+   
+//  var typeoff= x4[conte].getAttribute('value')[Math.floor((Math.random()*length))];
+contes=i+k;
+  var gap=[];
+  gap.push(number);
+  console.log(gap);
+
+    if((gap[0]>x4[0].getAttribute('min'))||(gap[1]>x4[1].getAttribute('min'))||(gap[2]>x4[2].getAttribute('min'))){
+        typestatus="Valid";
+       
+    }else{
+    typestatus ="Invalid";
+    
+    }
+    table += "<tr><td>"+x4[contes].getAttribute("id")+"</td><td>" +number+"</td><td>"+x4[conte].getAttribute('value')+"</td><td>"+y5[contes].getAttribute('value')+"</td><td>"+typestatus;
+   
+  
+   /* var textew = x4[Math.floor(Math.random() * x4.length+2)].getAttribute('value');
+    console.log(textew);    
+ */
+//if(x4[i].getAttribute('min')>1000&&x4[i].getAttribute('max')<10000){
+   /* table += "<tr><td>" +x4[i].getAttribute('min')+" "+x4[i].getAttribute('max')+"</td><td>"+x4[conte].getAttribute('value')+"</td><td>"+y5[contes].getAttribute('value')+"</td><td>"+tru;
+      console.log(y5[j].getAttribute('value'));*/
+//}else{
+ //   table+="<tr><td>"+x4[i].getAttribute('min')+" "+x4[i].getAttribute('max')+"</td><td>"+textew+"</td><td>"+"t"+"</td><td>"+flae;
+//} c
+//i++;
+
+  }
+  k++;
+}
+
+  document.getElementById("demo").innerHTML = table;
+
+
+}
+                    </script>
+                    </body>
+                    </html>
+									  
+				</div>		
+			</div><!--section-->
+		</div><!--/.container-->
+    </section><!--/about-us-->
+	
+	
+	
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.js"></script>		
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>	
+	<script src="js/wow.min.js"></script>
+	<script>
+	wow = new WOW(
+	 {
+	
+		}	) 
+		.init();
+	</script>	
+  </body>
+</html>

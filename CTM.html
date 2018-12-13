@@ -19,6 +19,18 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- <link rel="stylesheet" href="d3-collapsible-tree.css">-->
+
+
+   <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="d3.min.js"></script>
+
+    <!---->
+    <script type="text/javascript" src="test.js"></script>
+    <script type="text/javascript" src="d3.layout.js"></script>
+    <script type="text/javascript" src="test.js"></script>
+
   </head>
   <body>	
 	<header id="header">
@@ -42,7 +54,7 @@
 								<li role="presentation"><a href="FTA.html">FTA</a></li>
 								<li role="presentation"><a href="CTM.html" class="active">CTM</a></li>
 								<li role="presentation"><a href="Map.html">FTA & CTM</a></li>
-								<li role="presentation"><a href="Patition.html">Patition</a></li>
+								<li role="presentation"><a href="Patition.html">Generate</a></li>
 								<li role="presentation"><a href="Testcase.html">Test Case</a></li>					
 						</ul>
 					</div>
@@ -61,14 +73,434 @@
 		</div>			
 	
 	<hr>
-	
-	<section id="about-us">
-        <div class="container">	
-			<!-- our-team -->
-			<div class="team">
-				<div class="text-center wow fadeInDown">
-						
-									  
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+    
+        <title>Tree Example</title>
+    
+        <style>
+        
+        .node {
+            cursor: pointer;
+        }
+    
+        .node circle {
+          fill: #fff;
+          stroke: steelblue;
+          stroke-width: 3px;
+        }
+    
+        .node text {
+          font: 12px sans-serif;
+        }
+    
+        .link {
+          fill: none;
+          stroke: #ccc;
+          stroke-width: 2px;
+        }
+        
+        </style>
+    
+      </head>
+    
+      <body>
+            <section id="about-us">
+        
+                    <div class="container">		
+                        <center><form>
+                      <p align="left"><font size="6px"><b>Classification Tree Result</b></font></p>
+                    </form>
+          
+    <!-- load the d3.js library -->	 <div id="main-content"></div>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+        
+    <script>
+    
+    Alldata=[];
+                    console.log(Alldata);
+                    
+                    
+                      var xmlhttp = new XMLHttpRequest();
+                      xmlhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                          myFunction(this);
+                        }
+                      };
+                      xmlhttp.open("GET","DecisionTree.xml", true);
+                      xmlhttp.send(); 
+                      xmlhttp.open("GET","CFG.xml", true);
+                      xmlhttp.send();
+                    function myFunction(xml){
+                    
+       
+    var xmlhttp = new XMLHttpRequest();
+                      xmlhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                          myFunction(this);
+                        }
+                      };
+                      xmlhttp.open("GET","CFG.xml", true);
+                      xmlhttp.send();
+                    function myFunction(xml){
+ 
+                        xmlDoc = xml.responseXML;
+    txt = "";
+    nodeLen = xmlDoc.getElementsByTagName("Input").length
+    Getname=[];
+    GetRange=[];
+    Getvalue=[];
+
+                        for(j=0;j<nodeLen;j++){
+        x = xmlDoc.getElementsByTagName("Input")[j];
+        xlen = x.childNodes.length;
+
+        y = x.firstChild;
+       
+        var varName, type, dataSet
+        varName = "";
+        type="";
+
+        for (i = 0; i < xlen; i++) {    
+            if (y.nodeType == 1) {
+                 if(y.nodeName=="Varname"){ 
+                    varName = y.childNodes[0].nodeValue;
+                    name1 =   y.nodeName ;
+
+                    console.log(varName)
+                    Getname.push(varName);
+                
+                }
+     
+                if(y.nodeName=="Type"){
+                    type = y.childNodes[0].nodeValue;
+                    Getname.push(type);
+               
+                } 
+           
+                if(y.nodeName=="Condition"){
+                    yAtt = y.attributes;
+                    if((type!="")&&(type=="Range")){
+
+                    Ragearrmin=  yAtt.getNamedItem("min").nodeValue;
+                    Ragearrmax=  yAtt.getNamedItem("max").nodeValue
+                    GetRange.push(Ragearrmin);
+                    GetRange.push(Ragearrmax);
+                    }else if((type!="")&&(type=="Ordinal")){
+                percent=yAtt.getNamedItem("value").nodeValue ;
+
+                Getvalue.push(percent);
+                    }
+              
+                }
+                 
+            }
+            y = y.nextSibling;        
+        }//end of for i
+    
+       
+        txt += "<br>";
+    }//end of for j
+
+    nodeLen = xmlDoc.getElementsByTagName("Output").length
+    txt = txt + "nodeLen=" + nodeLen + "<br>";
+    for(j=0;j<nodeLen;j++){
+        x = xmlDoc.getElementsByTagName("Output")[j];
+        xlen = x.childNodes.length;
+
+        y = x.firstChild;
+       
+
+        for (i = 0; i < xlen; i++) {            
+            if (y.nodeType == 1) {
+                if(y.nodeName=="Action"){
+                    yAtt = y.attributes;
+                    percent =  yAtt.getNamedItem("value").nodeValue 
+                    test =  yAtt.getNamedItem("id").nodeValue ;
+                    Getvalue.push(percent);    
+                    console.log(test);
+                }else{
+                    y.nodeName;  
+                    varName= y.childNodes[0].nodeValue ;
+                    Getname.push(varName);    
+                 
+                }             
+            }
+            y = y.nextSibling;
+      
+        }//end of for i
+        txt += "<br>";
+
+
+ // document.write(Arr+"<br>");
+    }//end of for j
+    console.log(Getname);
+    console.log(GetRange);
+    console.log(Getvalue);
+
+                    
+                    
+                    
+                        
+                    
+                    
+    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+
+
+
+
+
+
+    var treeData = [
+    {
+    "name": "System",
+  "children": [
+        {
+           
+            "name": Getname[0],
+            "ID":"1",
+            "parent": false,
+            "children":[{
+                "name": Getname[1],
+               "parent":true ,
+               "children":[
+                { 
+                    "name":GetRange[0]+"-"+GetRange[1], 
+                    "parent":true
+                },
+                { 
+                    "name": GetRange[2]+"-"+GetRange[3], 
+                    "parent":true
+                },
+                { 
+                    "name": GetRange[4]+"-"+GetRange[5], 
+                    "parent":true
+
+               }]
+            }
+            ]
+            
+               
+        },
+        {
+            "name": Getname[2],
+            "parent": false,
+            "children":[{
+                "name": Getname[3],
+               "parent":true ,
+               "children":[
+                { 
+                    "name": Getvalue[0], 
+                    "parent":true
+                },
+                { 
+                    "name": Getvalue[1], 
+                    "parent":true
+                }
+            ]
+            }
+            
+               ]
+
+        },
+        {
+            "name": Getname[4],
+            "parent": false,
+            "children":[{
+                "name": Getname[5],
+               "parent":true ,
+               "children":[
+                { 
+                    "name": Getvalue[2], 
+                    "parent":true
+                },
+                { 
+                    "name": Getvalue[3], 
+                    "parent":true
+                },
+                { 
+                    "name": Getvalue[4], 
+                    "parent":true
+                },
+                { 
+                    "name": Getvalue[5], 
+                    "parent":true
+                },
+                { 
+                    "name": Getvalue[6], 
+                    "parent":true
+
+               },
+                { 
+                    "name": Getvalue[7], 
+                    "parent":true
+
+               }]
+            }
+            
+               ]
+               
+           
+            
+        }
+        
+    ]
+}
+    ];
+    
+    
+    // ************** Generate the tree diagram	 *****************
+    var margin = {top: 20, right: 120, bottom: 20, left: 120},
+        width = 960 - margin.right - margin.left,
+        height = 500 - margin.top - margin.bottom;
+        
+    var i = 0,
+        duration = 750,
+        root;
+    
+    var tree = d3.layout.tree()
+        .size([height, width]);
+    
+    var diagonal = d3.svg.diagonal()
+        .projection(function(d) { return [d.y, d.x]; });
+    
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.right + margin.left)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    root = treeData[0];
+    root.x0 = height / 2;
+    root.y0 = 0;
+      
+    update(root);
+    
+    d3.select(self.frameElement).style("height", "500px");
+    
+    function update(source) {
+    
+      // Compute the new tree layout.
+      var nodes = tree.nodes(root).reverse(),
+          links = tree.links(nodes);
+    
+      // Normalize for fixed-depth.
+      nodes.forEach(function(d) { d.y = d.depth * 100; });
+    
+      // Update the nodes…
+      var node = svg.selectAll("g.node")
+          .data(nodes, function(d) { return d.id || (d.id = ++i); });
+    
+      // Enter any new nodes at the parent's previous position.
+      var nodeEnter = node.enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+          .on("click", click);
+    
+      nodeEnter.append("circle")
+          .attr("r", 1e-6)
+          .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+    
+      nodeEnter.append("text")
+          .attr("x", function(d) { return d.children || d._children ? -13 : 13; })
+          .attr("dy", ".35em")
+          .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+          .text(function(d) { return d.name; })
+          .style("fill-opacity", 1e-6);
+    
+      // Transition nodes to their new position.
+      var nodeUpdate = node.transition()
+          .duration(duration)
+          .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+    
+      nodeUpdate.select("circle")
+          .attr("r", 10)
+          .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+    
+      nodeUpdate.select("text")
+          .style("fill-opacity", 1);
+    
+      // Transition exiting nodes to the parent's new position.
+      var nodeExit = node.exit().transition()
+          .duration(duration)
+          .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+          .remove();
+    
+      nodeExit.select("circle")
+          .attr("r", 1e-6);
+    
+      nodeExit.select("text")
+          .style("fill-opacity", 1e-6);
+    
+      // Update the links…
+      var link = svg.selectAll("path.link")
+          .data(links, function(d) { return d.target.id; });
+    
+      // Enter any new links at the parent's previous position.
+      link.enter().insert("path", "g")
+          .attr("class", "link")
+          .attr("d", function(d) {
+            var o = {x: source.x0, y: source.y0};
+            return diagonal({source: o, target: o});
+          });
+    
+      // Transition links to their new position.
+      link.transition()
+          .duration(duration)
+          .attr("d", diagonal);
+    
+      // Transition exiting nodes to the parent's new position.
+      link.exit().transition()
+          .duration(duration)
+          .attr("d", function(d) {
+            var o = {x: source.x, y: source.y};
+            return diagonal({source: o, target: o});
+          })
+          .remove();
+    
+      // Stash the old positions for transition.
+      nodes.forEach(function(d) {
+        d.y0 = d.y;
+        d.x0 = d.x;
+     
+      });
+    }
+    
+    // Toggle children on click.
+    function click(d) {
+      if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else {
+        d.children = d._children;
+        d._children = null;
+      }
+      update(d);
+    }
+}
+    
+                    }
+    </script>
+        
+      </body>
+    </html>		  
 				</div>		
 			</div><!--section-->
 		</div><!--/.container-->

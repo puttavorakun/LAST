@@ -42,7 +42,7 @@
 								<li role="presentation"><a href="FTA.html">FTA</a></li>
 								<li role="presentation"><a href="CTM.html">CTM</a></li>
 								<li role="presentation"><a href="Map.html">FTA & CTM</a></li>
-								<li role="presentation"><a href="Patition.html">Generate</a></li>
+								<li role="presentation"><a href="Patition.html">Patition</a></li>
 								<li role="presentation"><a href="Testcase.html"class="active">Test Case</a></li>					
 						</ul>
 					</div>
@@ -105,19 +105,13 @@
                            
 
 <div>
-
-        <p align="left"><font size="6px"><b>FTA & CTM Partition</b></font></p>
                             <table id="demo"></table>
                         </div>
                         <br><br>
-                        
-                            <button class="button1" type="button"  onclick="loadXMLDoc()">Test Case Generation</button>
+                            <button type="button" onclick="loadXMLDoc()">Test Case Generation</button>
                             <br><br>
-                            <p align="left"><font size="6px"><b>Valid Decision Tree</b></font></p>
                             <table id="xteam"></table>
-                            <br><br>
-                            <p align="left"><font size="6px"><b>Invalid  Decision Tree </b></font></p>
-                            <table id="see"></table>
+
                             
                             
                     <script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
@@ -139,11 +133,6 @@
    var DecisionTree=[];
    var ActionTree=[];
    ///XMLDECISTIontree1
-
-
-
-
-
   if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
     }
@@ -382,217 +371,6 @@ Alldatacfg.push();
 
 
 
-
-
-
-
-
-
-
-
-
-            table="<tr><th>"+"ID"+"</th><th>"+"Price"+"</th><th>"+"Customer Type"+"</th><th>"+"Percent"+"</th></tr>";
-                for(var te=0;te<DecisionTree.length;te++){
-                    var whater=te;
-                    var countme= ConditionTree[whater]-1;
-                    console.log(countme);
-                   var countwas= ConditionTree2[whater]-1;
-                   
-                   //console.log(countwas);
-                    table+="<tr><td width='5%'>"+DecisionTree[te][0]+"</td><td width='25%'>"+x4[countme].getAttribute("min")+"--"+x4[countme].getAttribute("max")+"</td><td width='15%'>"+x4[countwas].getAttribute("value")+"</td><td width='5%'>"+x5[te].getAttribute("value")+"</td></tr>";
-
-                }
-                    document.getElementById("demo").innerHTML = table;
-                }
-
-
-
-
-
-        var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        myFunction(this);
-                    }
-                };
-                xhttp.open("GET", "CFG.xml", true);
-                xhttp.send();   
-                
-                function myFunction(xml) {
-                    
-                    var x, txt, xmlDoc;
-                    //var table="<tr><th>NUMBER</th><th>Type</th><th>Value</th></tr>";
-                    xmlDoc = xml.responseXML;
-                    txt = "";
-                    x1 = xmlDoc.getElementsByTagName('Varname');
-                    console.log(x1);
-                    x2 = xmlDoc.getElementsByTagName('Type');
-                    x3 = xmlDoc.getElementsByTagName('Dataset');
-                    x4 = xmlDoc.getElementsByTagName('Condition');
-                    x5 = xmlDoc.getElementsByTagName('Action');
-                   
-                    GetvarName=[];
-                    GetName=[];
-                    GetOrdinal=[];
-                    GetRangemax=[];
-                    GetRangemin=[];
-                    Getidcfg=[];
-                    GetValue=[];
-                    nodeLen = xmlDoc.getElementsByTagName("Input").length
-                    // txt = txt + "nodeLen=" + nodeLen + "<br>";
-                    for(j=0;j<nodeLen;j++){
-                        x = xmlDoc.getElementsByTagName("Input")[j];
-                        xlen = x.childNodes.length;
-                
-                        y = x.firstChild;
-                       
-                        var varName, type, dataSet,invalid
-                        varName = "";
-                        type="";
-                        
-                
-                        for (i = 0; i < xlen; i++) {    
-                            if (y.nodeType == 1) {
-                                 if(y.nodeName=="Varname"){ 
-                                    varName = y.childNodes[0].nodeValue;
-                                    var tt=   " " + y.nodeName + " value = " + varName + "<br>";
-                                    GetName.push(varName );
-                                    GetvarName.push(y.nodeName );
-                                }
-                
-                                if(y.nodeName=="Type"){
-                                    type = y.childNodes[0].nodeValue;
-                                    var ds =   " " + y.nodeName + " value = " + type + "<br>";
-                                    GetName.push(type );
-                                    GetvarName.push(y.nodeName );
-                                } 
-                                if(y.nodeName=="Dataset"){
-                                    dataSet = y.childNodes[0].nodeValue;
-                                    var dd =   " " + y.nodeName + " value = " + dataSet + "<br>";
-                                    Getdatasetin.push(dataSet );
-                                    GetvarName.push(y.nodeName );
-                                } 
-                               
-                               // for (i = 0; i < xlen; i++) { 
-                                if(y.nodeName=="Condition"){
-                                    
-                                    yAtt = y.attributes;
-                                  
-                
-                                    if((type!="")&&(type=="Range")){
-                                        // txt+=Math.floor(Math.random() *yAtt.getNamedItem("max").nodeValue)+1 +"<br>";  gentestcase
-                                        
-                                    
-                                        id=yAtt.getNamedItem("id").nodeValue;
-                                         Ragearrmax=yAtt.getNamedItem("max").nodeValue ;
-                                         Ragearrmin=yAtt.getNamedItem("min").nodeValue ;
-                                         Getidcfg.push(id);
-                                         GetRangemax.push(Ragearrmin);
-                                        GetRangemin.push(Ragearrmax);
-   
-   
-   
-                                    }else if((type!="")&&(type=="Ordinal")){
-                                        id=yAtt.getNamedItem("id").nodeValue;
-                                        var dd =    yAtt.getNamedItem("value").nodeValue  ;
-                                        GetOrdinal.push(dd)                      
-                                        Getidcfg.push(id);             }
-                                }
-                                 
-                            }
-                            y = y.nextSibling;        
-                        }//end of for i
-                      
-                    }//end of for j
-                   
-                    nodeLen = xmlDoc.getElementsByTagName("Output").length
-                    // txt = txt + "nodeLen=" + nodeLen + "<br>";
-                    for(j=0;j<nodeLen;j++){
-                        x = xmlDoc.getElementsByTagName("Output")[j];
-                        xlen = x.childNodes.length;
-                
-                        y = x.firstChild;
-                       
-                        
-                        for (i = 0; i < xlen; i++) {    
-                            if(y.nodeName=="Dataset"){
-                                    dataSet = y.childNodes[0].nodeValue;
-                                    var dd =   " " + y.nodeName + " value = " + dataSet + "<br>";
-                                    Getdatasetin.push(dataSet );
-                                  
-                                } 
-                            if (y.nodeType == 1) {
-                                if(y.nodeName=="Action"){
-                                    yAtt = y.attributes;
-                                    
-                                    var xera =  yAtt.getNamedItem("value").nodeValue ;
-                                    id=yAtt.getNamedItem("id").nodeValue;
-                                    GetValue.push(xera);
-                             
-                                    Getidcfg.push(id);
-                                }else{
-                                    var wq=   y.childNodes[0].nodeValue ;
-                                    GetvarName.push(y.nodeName );
-                                    GetName.push(wq);
-                               
-                                }             
-                            }
-                            y = y.nextSibling;
-                        }//end of for i
-                        
-                    }//end of for j
-                    
-
-console.log (ConditionTree);
-        console.log (ConditionTree2);
-        console.log (DecisionTree);
-        console.log (ActionTree);
-
-
-//input
-         console.log(Getidcfg);
-
-                    console.log(GetName);
-                    console.log(GetOrdinal);
-                    console.log(GetValue);
-                   console.log (Getdatasetin);
-                    console.log(GetRangemax);
-                    console.log(GetRangemin);
-                    console.log(GetvarName);
-        
-//output
-
-
- 
-///data Analasis 
-
-Alldatacfg=[];
-
-for(numida=0;numida<Getidcfg.length;numida++){
-  //  for(datasetesd=0;datasetesd<){
-    
-var dataCFG=Getidcfg[numida];   
-    
-
-
-
- //   }
-console.log(dataCFG);
-
-
-
-
-Alldatacfg.push();
-}
-
-
-
-
-
-
-
-
-
     for(xw=0;xw<3;xw++){
     var random=Math.floor(Math.random() *GetRangemax[xw]) +1; 
   //  console.log(random);
@@ -617,9 +395,6 @@ Alldatacfg.push();
 
 
 
-
-
-
             table="<tr><th>"+"ID"+"</th><th>"+"Price"+"</th><th>"+"Customer Type"+"</th><th>"+"Percent"+"</th></tr>";
                 for(var te=0;te<DecisionTree.length;te++){
                     var whater=te;
@@ -641,9 +416,8 @@ Alldatacfg.push();
 
 
 
+
                 function loadXMLDoc() {
-
-
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
@@ -831,7 +605,7 @@ Alldatacfg.push();
                var smin=99999999, smax=-99999999;
                var whater=0;
                 for(var i=0;i<DecisionTree.length;i++){
-                    var min=parseInt(x4[3].getAttribute("min"));
+                                   
                       for (var j=0;j<x4.length;j++){
                         var id=x4[j].getAttribute("id");
                         var min=parseInt(x4[j].getAttribute("min"));
@@ -882,318 +656,6 @@ Alldatacfg.push();
                     
                 }//for decision
 
-
-
-               var rangeNe = (9999999 - 0) + 1;
-                var ranNe =  Math.random() * rangeNe;
-                var numberNe = Math.floor(0 + rangeNe) * -1;
-                console.log("min="+min+ " number="+ (numberNe));
-                var typestatus = "invalid";
-                //table+="<tr><td>"+(whater+2)+"</td><td>"+numberNe+"</td><td>"+x4[3].getAttribute("value")+"</td><td>"+x5[0].getAttribute("value")+"</td><td>"+typestatus+"</td></tr>";
-
-                var rangeww = (smax-smin) + 1;
-                var ranExcwww = Math.random() * rangeww;
-                var numberExceasd = Math.floor(ranExcwww + smax);
-                console.log("\n"+numberExceasd+"---------"+smax+"----------"+1000000+"----"+ranExc+"+++++"+rangeExc);
-                          
-               // table+="<tr><td>"+(whater+3)+"</td><td>"+numberExceasd+"</td><td>"+x4[4].getAttribute("value")+"</td><td>"+x5[5].getAttribute("value")+"</td><td>"+typestatus+"</td></tr>";
-               
-               
-        
-
-                var rangeExc = (9999999-smax) + 1;
-                var ranExc = Math.random() * rangeExc;
-                var numberExc = Math.floor(ranExc + smax);
-                console.log("\n"+numberExc+"---------"+smax+"----------"+1000000+"----"+ranExc+"+++++"+rangeExc);
-
-             //   table+="<tr><td>"+(whater+4)+"</td><td>"+gap[2]+"</td><td>"+x4[3].getAttribute("value")+"</td><td>"+x5[1].getAttribute("value")+"</td><td>"+typestatus+"</td></tr>";
-
-                document.getElementById("xteam").innerHTML = table;
-
-
-                }
-
-
-                ///valid
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        testFunction(this);
-                    }
-                };
-                xhttp.open("GET", "CFG.xml", true);
-                xhttp.send();   
-                
-                function testFunction(xml) {
-                    
-                    var x, txt, xmlDoc;
-                    //var table="<tr><th>NUMBER</th><th>Type</th><th>Value</th></tr>";
-                    xmlDoc = xml.responseXML;
-                    txt = "";
-                    x1 = xmlDoc.getElementsByTagName('Varname');
-                    console.log(x1);
-                    x2 = xmlDoc.getElementsByTagName('Type');
-                    x3 = xmlDoc.getElementsByTagName('Dataset');
-                    x4 = xmlDoc.getElementsByTagName('Condition');
-                    x5 = xmlDoc.getElementsByTagName('Action');
-                   
-                    GetvarName=[];
-                    GetName=[];
-                    GetOrdinal=[];
-                    GetRangemax=[];
-                    GetRangemin=[];
-                    Getidcfg=[];
-                    GetValue=[];
-                    nodeLen = xmlDoc.getElementsByTagName("Input").length
-                    // txt = txt + "nodeLen=" + nodeLen + "<br>";
-                    for(j=0;j<nodeLen;j++){
-                        x = xmlDoc.getElementsByTagName("Input")[j];
-                        xlen = x.childNodes.length;
-                
-                        y = x.firstChild;
-                       
-                        var varName, type, dataSet,invalid
-                        varName = "";
-                        type="";
-                        
-                
-                        for (i = 0; i < xlen; i++) {    
-                            if (y.nodeType == 1) {
-                                 if(y.nodeName=="Varname"){ 
-                                    varName = y.childNodes[0].nodeValue;
-                                    var tt=   " " + y.nodeName + " value = " + varName + "<br>";
-                                    GetName.push(varName );
-                                    GetvarName.push(y.nodeName );
-                                }
-                
-                                if(y.nodeName=="Type"){
-                                    type = y.childNodes[0].nodeValue;
-                                    var ds =   " " + y.nodeName + " value = " + type + "<br>";
-                                    GetName.push(type );
-                                    GetvarName.push(y.nodeName );
-                                } 
-                                if(y.nodeName=="Dataset"){
-                                    dataSet = y.childNodes[0].nodeValue;
-                                    var dd =   " " + y.nodeName + " value = " + dataSet + "<br>";
-                                    Getdatasetin.push(dataSet );
-                                    GetvarName.push(y.nodeName );
-                                } 
-                               
-                               // for (i = 0; i < xlen; i++) { 
-                                if(y.nodeName=="Condition"){
-                                    
-                                    yAtt = y.attributes;
-                                  
-                
-                                    if((type!="")&&(type=="Range")){
-                                        // txt+=Math.floor(Math.random() *yAtt.getNamedItem("max").nodeValue)+1 +"<br>";  gentestcase
-                                        
-                                    
-                                        id=yAtt.getNamedItem("id").nodeValue;
-                                         Ragearrmax=yAtt.getNamedItem("max").nodeValue ;
-                                         Ragearrmin=yAtt.getNamedItem("min").nodeValue ;
-                                         Getidcfg.push(id);
-                                         GetRangemax.push(Ragearrmin);
-                                        GetRangemin.push(Ragearrmax);
-   
-   
-   
-                                    }else if((type!="")&&(type=="Ordinal")){
-                                        id=yAtt.getNamedItem("id").nodeValue;
-                                        var dd =    yAtt.getNamedItem("value").nodeValue  ;
-                                        GetOrdinal.push(dd)                      
-                                        Getidcfg.push(id);             }
-                                }
-                                 
-                            }
-                            y = y.nextSibling;        
-                        }//end of for i
-                      
-                    }//end of for j
-                   
-                    nodeLen = xmlDoc.getElementsByTagName("Output").length
-                    // txt = txt + "nodeLen=" + nodeLen + "<br>";
-                    for(j=0;j<nodeLen;j++){
-                        x = xmlDoc.getElementsByTagName("Output")[j];
-                        xlen = x.childNodes.length;
-                
-                        y = x.firstChild;
-                       
-                        
-                        for (i = 0; i < xlen; i++) {    
-                            if(y.nodeName=="Dataset"){
-                                    dataSet = y.childNodes[0].nodeValue;
-                                    var dd =   " " + y.nodeName + " value = " + dataSet + "<br>";
-                                    Getdatasetin.push(dataSet );
-                                  
-                                } 
-                            if (y.nodeType == 1) {
-                                if(y.nodeName=="Action"){
-                                    yAtt = y.attributes;
-                                    
-                                    var xera =  yAtt.getNamedItem("value").nodeValue ;
-                                    id=yAtt.getNamedItem("id").nodeValue;
-                                    GetValue.push(xera);
-                             
-                                    Getidcfg.push(id);
-                                }else{
-                                    var wq=   y.childNodes[0].nodeValue ;
-                                    GetvarName.push(y.nodeName );
-                                    GetName.push(wq);
-                               
-                                }             
-                            }
-                            y = y.nextSibling;
-                        }//end of for i
-                        
-                    }//end of for j
-                    
-
-console.log (ConditionTree);
-        console.log (ConditionTree2);
-        console.log (DecisionTree);
-        console.log (ActionTree);
-
-
-//input
-         console.log(Getidcfg);
-
-                    console.log(GetName);
-                    console.log(GetOrdinal);
-                    console.log(GetValue);
-                   console.log (Getdatasetin);
-                    console.log(GetRangemax);
-                    console.log(GetRangemin);
-                    console.log(GetvarName);
-        
-//output
-
-
- 
-///data Analasis 
-table="<tr><th>"+"ID"+"</th><th>"+"Price"+"</th><th>"+"customertype"+"</th><th>"+"Percent"+"</th><th>"+"Status"+"</th></th>";
-               var gap=[];
-               var smin=99999999, smax=-99999999;
-               var whater=0;
-                for(var i=0;i<DecisionTree.length;i++){
-                    var min=parseInt(x4[3].getAttribute("min"));
-                     for (var j=0;j<x4.length;j++){
-                        var id=x4[j].getAttribute("id");
-                        var min=parseInt(x4[j].getAttribute("min"));
-                        var max=parseInt(x4[j].getAttribute("max"));
-
-                        if(ConditionTree[i]==id)
-                        {
-
-                          console.log("Condition id="+ConditionTree[i]);
-                          console.log("id="+id);
-                          console.log("min="+min);
-                          console.log("max="+max );
-                          
-                          var range = (max - min) + 1;
-                          var ran =  Math.random() * range;
-                          var number = Math.floor(min + ran);
-                          console.log("min="+min+ " number="+ (ran+min));
-
-                           console.log("\n"+number+"---------"+min+"----------"+max+"----"+ran+"+++++"+range);
-                          gap.push(number);
-                          
-                          whater=i;
-                          var countme= ConditionTree[whater]-1;
-                          var countwas= ConditionTree2[whater]-1;
-                          var typestatus;
-
-                          if((gap[i]<min)||(gap[i]>max )){
-                                typestatus="Invalid";
-       
-                          }else{
-                              typestatus ="Valid";
-    
-                           }
- 
-                           
-                       //   table+="<tr><td>"+DecisionTree[i][0]+"</td><td>"+gap[i]+"</td><td>"+x4[countwas].getAttribute("value")+"</td><td>"+x5[i].getAttribute("value")+"</td><td>"+typestatus+"</td></tr>";
-
-                          if(smin>min) smin=min;
-                          if(smax < max) smax = max;
-
-                          console.log("smax="+smax+" smin="+smin)
-
-
-                   
-
-                        }                      
-                    }            
-                    
-                }//for decision
-
-
-
                 var rangeNe = (9999999 - 0) + 1;
                 var ranNe =  Math.random() * rangeNe;
                 var numberNe = Math.floor(0 + rangeNe) * -1;
@@ -1201,33 +663,15 @@ table="<tr><th>"+"ID"+"</th><th>"+"Price"+"</th><th>"+"customertype"+"</th><th>"
                 var typestatus = "invalid";
                 table+="<tr><td>"+(whater+2)+"</td><td>"+numberNe+"</td><td>"+x4[3].getAttribute("value")+"</td><td>"+x5[0].getAttribute("value")+"</td><td>"+typestatus+"</td></tr>";
 
-                var rangeww = (smax-smin) + 1;
-                var ranExcwww = Math.random() * rangeww;
-                var numberExceasd = Math.floor(ranExcwww + smax);
-                console.log("\n"+numberExceasd+"---------"+smax+"----------"+1000000+"----"+ranExc+"+++++"+rangeExc);
-                          
-                table+="<tr><td>"+(whater+3)+"</td><td>"+numberExceasd+"</td><td>"+x4[4].getAttribute("value")+"</td><td>"+x5[5].getAttribute("value")+"</td><td>"+typestatus+"</td></tr>";
-               
-               
-        
-
                 var rangeExc = (9999999-smax) + 1;
                 var ranExc = Math.random() * rangeExc;
                 var numberExc = Math.floor(ranExc + smax);
                 console.log("\n"+numberExc+"---------"+smax+"----------"+1000000+"----"+ranExc+"+++++"+rangeExc);
+                          
+                table+="<tr><td>"+(whater+3)+"</td><td>"+numberExc+"</td><td>"+x4[4].getAttribute("value")+"</td><td>"+x5[5].getAttribute("value")+"</td><td>"+typestatus+"</td></tr>";
 
-                table+="<tr><td>"+(whater+4)+"</td><td>"+gap[0]+"</td><td>"+x4[4].getAttribute("value")+"</td><td>"+x5[1].getAttribute("value")+"</td><td>"+typestatus+"</td></tr>";
-
-                document.getElementById("xteam").innerHTML = table;
-
-                    document.getElementById("see").innerHTML = table;
+                    document.getElementById("xteam").innerHTML = table;
                 }
-
-
-
-
-
-                
   
 }
 
